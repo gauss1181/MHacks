@@ -18,7 +18,7 @@
             tCharacter.setAnimationSpeed(500);
 
             tCharacter.setSpeed(0);
-            tCharacter.setPosition(180, 300);
+            tCharacter.setPosition(50, 150);
             tCharacter.pauseAnimation();
             tCharacter.setCurrentCycle("down");
 
@@ -72,24 +72,35 @@
 
             return tCharacter;
         }
+
+        function Enemy () {
+            tEnemy= new Sprite(game,"enemy.jpeg",27,56);
+            tEnemy.setSpeed(0);
+            tEnemy.setPosition(700,450);
+            return tEnemy;
+        }
         
         function init(){
             game = new Scene();
             character = new Character();
-            //background = new Sprite(game, "background1.png", 800, 600);
-            //background.setSpeed(0,0);
-            //background.setPosition(400, 300);
+            enemy = new Enemy();
+            background = new Sprite(game, "back2.png", 800, 600);
+            background.setSpeed(0,0);
+            background.setPosition(400, 300);
             
             game.start();
         } // end init
         
         function update(){
             game.clear();
-            //background.update();
+            background.update();
             character.checkKeys();
             character.checkBounds();
             character.update();
+            enemy.update();
         } // end update
+
+        
 
     </script>
 </head>
