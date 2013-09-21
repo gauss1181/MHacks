@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>MHacks Game</title>
+    <script type = "text/javascript"
+            src = "simpleGame.js"></script>
+    <script type = "text/javascript">
+        var game;
+        var background;
+        var character;
+        
+        function init(){
+            game = new Scene();
+            /* background = new Sprite(game, "background1.png", 800, 600);
+            background.setSpeed(0,0);
+            background.setPosition(400, 300); */
+            character = new Sprite(game, "rpg_sprite_walk.png", 192, 128);
+            character.loadAnimation(192, 128, 24, 32);
+            character.generateAnimationCycles();
+            character.renameCycles(new Array("down", "up", "left", "right"));
+            character.setAnimationSpeed(500);
+
+            //start paused
+            character.setPosition(180, 300);
+            character.setSpeed(0);
+            character.pauseAnimation();
+            character.setCurrentCycle("down");
+            
+            game.start();
+        } // end init
+        
+        function update(){
+            game.clear();
+            checkKeys();
+            
+            /* background.update(); */
+            character.update();
+        } // end update
+        
+        function checkKeys(){
+            
+            if (keysDown[K_LEFT]){
+                character.changeXby(-2);
+                character.setMoveAngle(270);
+                character.setCurrentCycle("left");
+            }
+            if (keysDown[K_RIGHT]){
+                character.changeXby(2);
+                character.setMoveAngle(90);
+                character.setCurrentCycle("right");
+            }                
+            if (keysDown[K_UP]){
+                character.changeYby(-2);
+                character.setMoveAngle(0);
+                character.setCurrentCycle("up");
+            }                
+            if (keysDown[K_DOWN]){
+                character.changeYby(2);
+                character.setMoveAngle(180);
+                character.setCurrentCycle("down");
+            }                
+            
+            if (keysDown[K_SPACE]){ /* Talk to people, attack stuff, inspect stuff */
+                character.setSpeed(0);
+                character.pauseAnimation();
+                character.setCurrentCycle("down");
+            }
+
+        }
+
+    </script>
+</head>
+<body onload = "init()">
+</body>
+</html>
