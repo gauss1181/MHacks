@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+
+ 	<head> 
+ 		<link rel="stylesheet" type="text/css" href="style.css">
+ 			<title> Game MHACKS</title>
+ 	
+ 	<meta charset="UTF-8">
+  <script type = "text/javascript"
+            src = "simpleGame.js"></script>
+    <script type = "text/javascript">
+        var game;
+        var background;
+        var character;
+        
+        function init(){
+            game = new Scene();
+            background = new Sprite(game, "background1.png", 800, 600);
+            background.setSpeed(0,0);
+            background.setPosition(400, 300);
+            character = new Sprite(game, "rpg_sprite_walk.png", 192, 128);
+            character.loadAnimation(192, 128, 24, 32);
+            character.generateAnimationCycles();
+            character.renameCycles(new Array("down", "up", "left", "right"));
+            character.setAnimationSpeed(500);
+
+            //start paused
+            character.setPosition(250, 300);
+            character.setSpeed(0);
+            character.pauseAnimation();
+            character.setCurrentCycle("down");
+            
+            game.start();
+        } // end init
+        
+        function update(){
+            game.clear();
+            checkKeys();
+            
+            background.update();
+            character.update();
+        } // end update
+        
+        function checkKeys(){
+            
+            if (keysDown[K_LEFT]){
+                character.changeXby(-2);
+                character.setMoveAngle(270);
+                character.setCurrentCycle("left");
+            }
+            if (keysDown[K_RIGHT]){
+                character.changeXby(2);
+                character.setMoveAngle(90);
+                character.setCurrentCycle("right");
+            }                
+            if (keysDown[K_UP]){
+                character.changeYby(-2);
+                character.setMoveAngle(0);
+                character.setCurrentCycle("up");
+            }                
+            if (keysDown[K_DOWN]){
+                character.changeYby(2);
+                character.setMoveAngle(180);
+                character.setCurrentCycle("down");
+            }                
+            
+            /* if (keysDown[K_SPACE]){
+                character.setSpeed(0);
+                character.pauseAnimation();
+                character.setCurrentCycle("down");
+            } */
+
+}
+        
+    </script>
+</head>
+<body onload = "init()">
+
+
+
+<table>
+
+      <tr>
+
+         <td><img src="http://aboutluxbet.files.wordpress.com/2013/06/3.jpg"></td>
+      </tr>
+      <tr>
+      	<td>
+             <img src="http://media1.santabanta.com/full1/Sports/Games/games-262v.jpg">
+      	</td>
+      </tr>
+   <tr>
+      <td>
+      	<img src="http://images2.wikia.nocookie.net/__cb20120922002943/fantendo/images/f/fc/MarioNSMBWii.png">
+      </td>
+  </tr>
+
+</table>
+<table>
+		
+		<thead><tr><th> Games On Offer</th></tr></thead>
+		<tr>
+   
+		<td>
+			<img src="http://media.dcentertainment.com/sites/default/files/styles/slider-stlyle/public/DC-Game_infinitecrisis_578x290_ju8y7tghy6_.jpg?itok=1jsnu7gn">
+
+		</td>
+		<td>
+           <img src="http://static.hothdwallpaper.net/51d797a85077290881.jpg">
+        </td>
+        	<td>
+        		<img src="http://wallfive.com/wp-content/uploads/2013/04/cool-car-games1.jpg">
+        	</td>
+        </tr>
+	</table>
+
+
+
+</body>
+</html>
