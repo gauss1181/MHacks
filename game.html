@@ -2,73 +2,99 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>walkAnim.html</title>
+    <title>MHacks Game</title>
     <script type = "text/javascript"
             src = "simpleGame.js"></script>
     <script type = "text/javascript">
         var game;
         var background;
         var character;
+
+        function Character(){
+            tCharacter = new Sprite(game, "rpg_sprite_walk.png", 192, 128);
+            tCharacter.loadAnimation(192, 128, 24, 32);
+            tCharacter.generateAnimationCycles();
+            tCharacter.renameCycles(new Array("down", "up", "left", "right"));
+            tCharacter.setAnimationSpeed(500);
+
+            tCharacter.setSpeed(0);
+            tCharacter.setPosition(180, 300);
+            tCharacter.pauseAnimation();
+            tCharacter.setCurrentCycle("down");
+
+            tCharacter.checkKeys = function(){
+                if (keysDown[K_A]){
+                    this.changeXby(-2);
+                    this.setMoveAngle(270);
+                    this.setCurrentCycle("left");
+                }
+                if (keysDown[K_D]){
+                    this.changeXby(2);
+                    this.setMoveAngle(90);
+                    this.setCurrentCycle("right");
+                }                
+                if (keysDown[K_W]){
+                    this.changeYby(-2);
+                    this.setMoveAngle(0);
+                    this.setCurrentCycle("up");
+                }                
+                if (keysDown[K_S]){
+                    this.changeYby(2);
+                    this.setMoveAngle(180);
+                    this.setCurrentCycle("down");
+                }                
+                
+                if (keysDown[K_SPACE]){ /* Talk to people, attack stuff, inspect stuff */
+                    this.setSpeed(0);
+                    this.pauseAnimation();
+                    this.setCurrentCycle("down");
+                }
+            }
+
+            tCharacter.checkBounds = function(){
+                if (this.x < 12){
+                    this.setPosition(12, this.y);
+                    this.setSpeed(0);
+                }
+                if (this.x > 788){
+                    this.setPosition(788, this.y);
+                    this.setSpeed(0);
+                }
+                if (this.y < 12){
+                    this.setPosition(this.x, 12);
+                    this.setSpeed(0);
+                }
+                if (this.y > 588){
+                    this.setPosition(this.x, 588);
+                    this.setSpeed(0);
+                }
+                if (this.x > 620 && this.x < 650 && this.y > 50 && this.y < 70){
+                    game.stop(); //enter dungeon
+                    document.location.href ="gameLevel2.html";
+                }
+            }
+
+            return tCharacter;
+        }
         
         function init(){
             game = new Scene();
+            character = new Character();
             background = new Sprite(game, "background1.png", 800, 600);
             background.setSpeed(0,0);
             background.setPosition(400, 300);
-            character = new Sprite(game, "rpg_sprite_walk.png", 192, 128);
-            character.loadAnimation(192, 128, 24, 32);
-            character.generateAnimationCycles();
-            character.renameCycles(new Array("down", "up", "left", "right"));
-            character.setAnimationSpeed(500);
-
-            //start paused
-            character.setPosition(250, 300);
-            character.setSpeed(0);
-            character.pauseAnimation();
-            character.setCurrentCycle("down");
             
             game.start();
         } // end init
         
         function update(){
             game.clear();
-            checkKeys();
-            
             background.update();
+            character.checkKeys();
+            character.checkBounds();
             character.update();
         } // end update
-        
-        function checkKeys(){
-            
-            if (keysDown[K_LEFT]){
-                character.changeXby(-2);
-                character.setMoveAngle(270);
-                character.setCurrentCycle("left");
-            }
-            if (keysDown[K_RIGHT]){
-                character.changeXby(2);
-                character.setMoveAngle(90);
-                character.setCurrentCycle("right");
-            }                
-            if (keysDown[K_UP]){
-                character.changeYby(-2);
-                character.setMoveAngle(0);
-                character.setCurrentCycle("up");
-            }                
-            if (keysDown[K_DOWN]){
-                character.changeYby(2);
-                character.setMoveAngle(180);
-                character.setCurrentCycle("down");
-            }                
-            
-            /* if (keysDown[K_SPACE]){
-                character.setSpeed(0);
-                character.pauseAnimation();
-                character.setCurrentCycle("down");
-            } */
 
-}
-        
     </script>
 </head>
 <body onload = "init()">
