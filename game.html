@@ -51,6 +51,13 @@
                     this.setSpeed(0);
                     this.pauseAnimation();
                     this.setCurrentCycle("down");
+                    if (this.x > mayor.x - mayor.width && this.x < mayor.x + mayor.width && this.y > mayor.y - mayor.height && this.y < mayor.y + mayor.height&& this.hasWeapon == false){
+                        alert("MAYOR: Hello my friend! What are you up to now these fine days?");
+                        alert("Conversation goes on. Mayor gives you sword.");
+                        alert("MAYOR: I must head off now. So long and good luck.");
+                        this.setSpeed(0);
+                        mayor.hide();
+                    }
                     if (this.x > 620 && this.x < 650 && this.y > 50 && this.y < 70 && this.hasWeapon == false){
                         alert("YOU: I feel like this place looks too treacherous without some sort of offensive mechanism...");
                         alert("YOU: Maybe I should seek out the mayor of this village. Hopefully he can help me out.");
@@ -95,8 +102,8 @@
         
         function init(){
             game = new Scene();
-            character = new Character();
             mayor = new Mayor();
+            character = new Character();
             background = new Sprite(game, "background1.png", 800, 600);
             background.setSpeed(0,0);
             background.setPosition(400, 300);
@@ -107,10 +114,10 @@
         function update(){
             game.clear();
             background.update();
+            mayor.update();
             character.checkKeys();
             character.checkBounds();
             character.update();
-            mayor.update();
         } // end update
 
     </script>
