@@ -16,6 +16,9 @@
             tCharacter.generateAnimationCycles();
             tCharacter.renameCycles(new Array("down", "up", "left", "right"));
             tCharacter.setAnimationSpeed(500);
+            tCharacter.hasWeapon = false;
+            tCharacter.items = new Array();
+            tCharacter.items[0] = "Weapon";
 
             tCharacter.setSpeed(0);
             tCharacter.setPosition(180, 300);
@@ -48,6 +51,15 @@
                     this.setSpeed(0);
                     this.pauseAnimation();
                     this.setCurrentCycle("down");
+                    if (this.x > 620 && this.x < 650 && this.y > 50 && this.y < 70 && this.hasWeapon == false){
+                        alert("YOU: I feel like this place looks too treacherous without some sort of offensive mechanism...");
+                        alert("YOU: Maybe I should seek out the mayor of this village. Hopefully he can help me out.");
+                        this.setSpeed(0);
+                    }
+                    if (this.x > 620 && this.x < 650 && this.y > 50 && this.y < 70 && this.hasWeapon == true){
+                        game.stop(); //enter dungeon
+                        document.location.href ="gameLevel2.html";
+                    }
                 }
             }
 
@@ -68,18 +80,23 @@
                     this.setPosition(this.x, 588);
                     this.setSpeed(0);
                 }
-                if (this.x > 620 && this.x < 650 && this.y > 50 && this.y < 70){
-                    game.stop(); //enter dungeon
-                    document.location.href ="gameLevel2.html";
-                }
             }
 
             return tCharacter;
+        }
+
+        function Mayor(){
+            tMayor = new Sprite(game, "mayor.gif", 27, 36);
+            tMayor.setSpeed(0);
+            tMayor.setPosition(400, 400);
+
+            return tMayor;
         }
         
         function init(){
             game = new Scene();
             character = new Character();
+            mayor = new Mayor();
             background = new Sprite(game, "background1.png", 800, 600);
             background.setSpeed(0,0);
             background.setPosition(400, 300);
@@ -93,6 +110,7 @@
             character.checkKeys();
             character.checkBounds();
             character.update();
+            mayor.update();
         } // end update
 
     </script>
