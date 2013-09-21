@@ -1,0 +1,100 @@
+body{
+	background-image: url("http://cdn.wallwuzz.com/uploads/games-hitman-contracts-widescreen-wallpaper-images-wallwuzz-hd-wallpaper-16483.jpg");
+	
+	border-style: dotted solid double;
+
+}
+
+
+
+img{
+
+	display: block;
+	height: 300px;
+	width: 300px;
+	margin: 3px auto;
+	border-radius: 30px;
+	border: 3px solid black;
+	opacity: 0.4;
+}
+
+a{
+		border-radius: 10px;
+		border: 2px solid #6495ED;
+		background-color: #BCD2EE;
+		height:150px;
+		width: 120px;
+		margin: auto;
+		text-align: center;
+		text-decoration: overline;
+		font-family: Garamond;
+		font-weight: bolder;
+		font-size: 20px;
+		border-color: black;
+
+}
+span{
+		font-weight: bold;
+		font-family: Garamond;
+		font-size: 20px;
+		color: black;
+		text-align: center;
+}
+
+table{
+		text-align: auto;
+		margin: 100px auto;
+		height: 230px;
+		position: relative;
+		width: 240px auto;
+		border-radius: 10px;
+		padding: auto;
+		box-shadow: 0 0 20px rgba(7,5,6,4)
+
+		
+}
+
+table ,td{
+	margin: 5px auto;
+	text-align: center;
+	border-radius: 30px;
+	border: 1px green dashed;
+	
+	
+}
+
+div{
+	width: auto;
+	height: auto;
+	overflow: scroll;
+}
+
+div.background{
+
+	width: 500px;
+	height: 250px;
+	background: url("http://pcmedia.gamespy.com/pc/image/article/122/1220993/the-10-best-superhero-pc-games-20120316035626353.jpg")repeat;
+	border:  2px solid black;
+	border-radius: 30px;
+}
+
+div.transbox{
+
+	width: 400px;
+	height: 250px;
+	margin: 30px 50px;
+	background-color: #ffffff;
+	border: 1px solid black;
+	opacity: 0.4;
+	border-radius: 20px;
+	
+}
+
+div.transbox p{
+
+	margin: 30px 40px;
+	font-weight: bold;
+	color: #0000000;
+
+}
+
