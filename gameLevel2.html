@@ -15,6 +15,9 @@
         var delay = .5;
         var timer;
         var elapsedTime;
+        var elapsedTime2;
+        var r = Math.random();
+        var death;
 
         function Character(){
             tCharacter = new Sprite(game, "rpg_sprite_walk.png", 192, 128);
@@ -95,8 +98,8 @@
 
         function Enemy () {
             tEnemy= new Sprite(game,"enemy.jpeg",27,56);
-            tEnemy.setPosition(700,450);
-            tEnemy.health = 30;
+            tEnemy.setPosition(650,450);
+            tEnemy.health = 15;
             tEnemy.horVert = Math.random();
             console.log(tEnemy.horVert);
             if (tEnemy.horVert < 0.5){
@@ -106,26 +109,44 @@
             }
             else{
                 tEnemy.setDX(0);
-                tEnemy.setDY(5);
-                tEnemy.direction = 180;
+                tEnemy.setDY(-5);
+                tEnemy.direction = 0;
             }
 
             tEnemy.checkBounds = function(){
-                if (this.x < 12){
-                    this.setPosition(12, this.y);
-                    this.dx = -1 * this.dx;
+                if (this.x < 50){
+                    this.setPosition(50, this.y);
+                    this.setDX(0);
+                    this.setDY(-5);
                 }
-                if (this.x > 788){
-                    this.setPosition(788, this.y);
-                    this.dx = -1 * this.dx;
+                if (this.x > 700){
+                    this.setPosition(700, this.y);
+                    this.setDX(0);
+                    this.setDY(5);
                 }
-                if (this.y < 12){
-                    this.setPosition(this.x, 12);
-                    this.dy = -1 * this.dy;
+                if (this.y < 50){
+                    this.setPosition(this.x, 50);
+                    this.setDX(5);
+                    this.setDY(0);
                 }
-                if (this.y > 588){
-                    this.setPosition(this.x, 588);
-                    this.dy = -1 * this.dy;
+                if (this.y > 460){
+                    this.setPosition(this.x, 460);
+                    this.setDX(-5);
+                    this.setDY(0);
+                }
+            }
+
+            tEnemy.checkCollisions = function(){
+                if (this.distanceTo(character) <= 10){
+                    character.health -= 2;
+                    console.log(character.health);
+                    if (character.health <= 0){
+                        character.hide();
+                        game.stop();
+                        death = new GameButton("You have died; game over.");
+                        death.setPosition(20, 600);
+                        death.setSize(600, 100);
+                    }
                 }
             }
             return tEnemy;
@@ -142,7 +163,10 @@
                 this.setPosition(character.x, character.y);
                 this.setAngle(character.direction);
                 this.setSpeed(15);
-                if (this.collidesWith(enemy)){
+            } // end fire
+
+            tMissile.checkCollisions = function(){
+                if (this.distanceTo(enemy) <= 10){
                     this.hide();
                     enemy.health -= 5;
                     console.log(enemy.health);
@@ -150,7 +174,7 @@
                         enemy.hide();
                     }
                 }
-            } // end fire
+            }
             
             return tMissile;
         } // end missile def
@@ -164,6 +188,7 @@
 
         function updateMissiles(){
             for (i = 0; i < num_missiles; i++){
+                missiles[i].checkCollisions();
                 missiles[i].update();
             }
         }
@@ -188,6 +213,7 @@
             character.checkBounds();
             character.update();
             enemy.checkBounds();
+            enemy.checkCollisions();
             enemy.update();
             updateMissiles();
         } // end update
