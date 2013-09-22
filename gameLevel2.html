@@ -9,6 +9,12 @@
         var game;
         var background;
         var character;
+        var missiles;
+        var num_missiles = 999;
+        var currentMissile = 0;
+        var delay = .5;
+        var timer;
+        var elapsedTime;
 
         function Character(){
             tCharacter = new Sprite(game, "rpg_sprite_walk.png", 192, 128);
@@ -19,27 +25,33 @@
 
             tCharacter.setSpeed(0);
             tCharacter.setPosition(50, 150);
+            tCharacter.direction = 180;
             tCharacter.pauseAnimation();
             tCharacter.setCurrentCycle("down");
 
             tCharacter.checkKeys = function(){
+                elapsedTime = timer.getElapsedTime();
                 if (keysDown[K_A]){
                     this.changeXby(-2);
+                    this.direction = 270;
                     this.setMoveAngle(270);
                     this.setCurrentCycle("left");
                 }
                 if (keysDown[K_D]){
                     this.changeXby(2);
+                    this.direction = 90;
                     this.setMoveAngle(90);
                     this.setCurrentCycle("right");
                 }                
                 if (keysDown[K_W]){
                     this.changeYby(-2);
+                    this.direction = 0;
                     this.setMoveAngle(0);
                     this.setCurrentCycle("up");
                 }                
                 if (keysDown[K_S]){
                     this.changeYby(2);
+                    this.direction = 180;
                     this.setMoveAngle(180);
                     this.setCurrentCycle("down");
                 }                
@@ -47,7 +59,14 @@
                 if (keysDown[K_SPACE]){ /* Talk to people, attack stuff, inspect stuff */
                     this.setSpeed(0);
                     this.pauseAnimation();
-                    this.setCurrentCycle("down");
+                    if (elapsedTime > delay){
+                        currentMissile++;
+                        if (currentMissile > num_missiles){
+                            currentMissile = 0;
+                        }
+                        missiles[currentMissile].fire();
+                        timer.reset();
+                    }
                 }
             }
 
@@ -79,14 +98,45 @@
             tEnemy.setPosition(700,450);
             return tEnemy;
         }
+
+        function Missile(){
+            tMissile = new Sprite(game, "missile.png", 30, 20);
+            tMissile.hide();
+            
+            tMissile.fire = function(){
+                this.show();
+                this.setSpeed(15);
+                this.setBoundAction(DIE);
+                this.setPosition(character.x, character.y);
+                this.setAngle(character.direction);
+                this.setSpeed(15);
+            } // end fire
+            
+            return tMissile;
+        } // end missile def
+        
+        function makeMissiles(){
+            missiles = new Array(num_missiles);
+            for (i = 0; i < num_missiles; i++){
+                missiles[i] = new Missile();
+            }
+        }
+
+        function updateMissiles(){
+            for (i = 0; i < num_missiles; i++){
+                missiles[i].update();
+            }
+        }
         
         function init(){
             game = new Scene();
+            timer = new Timer();
             character = new Character();
             enemy = new Enemy();
-            background = new Sprite(game, "back2.png", 800, 600);
+            background = new Sprite(game, "background2.jpg", 800, 600);
             background.setSpeed(0,0);
             background.setPosition(400, 300);
+            makeMissiles();
             
             game.start();
         } // end init
@@ -98,6 +148,7 @@
             character.checkBounds();
             character.update();
             enemy.update();
+            updateMissiles();
         } // end update
 
         
