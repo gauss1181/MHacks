@@ -94,8 +94,38 @@
 
         function Enemy () {
             tEnemy= new Sprite(game,"enemy.jpeg",27,56);
-            tEnemy.setSpeed(0);
             tEnemy.setPosition(700,450);
+            tEnemy.horVert = Math.random();
+            console.log(tEnemy.horVert);
+            if (tEnemy.horVert < 0.5){
+                tEnemy.setDX(-5);
+                tEnemy.setDY(0);
+                tEnemy.direction = 270;
+            }
+            else{
+                tEnemy.setDX(0);
+                tEnemy.setDY(5);
+                tEnemy.direction = 180;
+            }
+
+            tEnemy.checkBounds = function(){
+                if (this.x < 12){
+                    this.setPosition(12, this.y);
+                    this.dx = -1 * this.dx;
+                }
+                if (this.x > 788){
+                    this.setPosition(788, this.y);
+                    this.dx = -1 * this.dx;
+                }
+                if (this.y < 12){
+                    this.setPosition(this.x, 12);
+                    this.dy = -1 * this.dy;
+                }
+                if (this.y > 588){
+                    this.setPosition(this.x, 588);
+                    this.dy = -1 * this.dy;
+                }
+            }
             return tEnemy;
         }
 
@@ -147,6 +177,7 @@
             character.checkKeys();
             character.checkBounds();
             character.update();
+            enemy.checkBounds();
             enemy.update();
             updateMissiles();
         } // end update
